@@ -16,6 +16,14 @@ type ExcelOptions struct {
 	DTypes    map[string]dataframe.DType
 }
 
+// ExcelWriteOptions defines options for writing Excel files.
+type ExcelWriteOptions struct {
+	Sheet         string
+	IncludeHeader *bool
+	IncludeIndex  bool
+	IndexName     string
+}
+
 // ReadExcel reads an Excel file and returns a DataFrame.
 func ReadExcel(path string, opts ExcelOptions) (*dataframe.DataFrame, error) {
 	f, err := excelize.OpenFile(path)
@@ -114,4 +122,175 @@ func ReadExcel(path string, opts ExcelOptions) (*dataframe.DataFrame, error) {
 	}
 
 	return df, nil
+}
+
+// WriteExcel writes a DataFrame to an Excel file.
+func WriteExcel(path string, df *dataframe.DataFrame, opts ExcelWriteOptions) error {
+	if df == nil {
+		return fmt.Errorf("dataframe is nil")
+	}
+
+	includeHeader := true
+	if opts.IncludeHeader != nil {
+		includeHeader = *opts.IncludeHeader
+	}
+
+	sheet := opts.Sheet
+	if sheet == "" {
+		sheet = "Sheet1"
+	}
+
+	f := excelize.NewFile()
+	if sheet != "Sheet1" {
+		if err := f.SetSheetName("Sheet1", sheet); err != nil {
+			return err
+		}
+	}
+
+	rows := df.Shape()[0]
+	cols := df.Columns()
+
+	rowOffset := 1
+	colOffset := 1
+	if includeHeader {
+		if opts.IncludeIndex {
+			indexName := opts.IndexName
+			if indexName == "" {
+				indexName = "index"
+			}
+			cell, _ := excelize.CoordinatesToCellName(colOffset, rowOffset)
+			if err := f.SetCellValue(sheet, cell, indexName); err != nil {
+				return err
+			}
+			colOffset++
+		}
+
+		for i, col := range cols {
+			cell, _ := excelize.CoordinatesToCellName(colOffset+i, rowOffset)
+			if err := f.SetCellValue(sheet, cell, col); err != nil {
+				return err
+			}
+		}
+		rowOffset++
+	}
+
+	for r := 0; r < rows; r++ {
+		colStart := 1
+		if opts.IncludeIndex {
+			label, err := df.Index().Get(r)
+			if err != nil {
+				return err
+			}
+			cell, _ := excelize.CoordinatesToCellName(colStart, rowOffset+r)
+			if err := f.SetCellValue(sheet, cell, label); err != nil {
+				return err
+			}
+			colStart++
+		}
+
+		for c, col := range cols {
+			series, ok := df.GetSeries(col)
+			if !ok {
+				return fmt.Errorf("column '%s' not found", col)
+			}
+			value, err := series.Get(r)
+			if err != nil {
+				return err
+			}
+			cell, _ := excelize.CoordinatesToCellName(colStart+c, rowOffset+r)
+			if value == nil {
+				value = ""
+			}
+			if err := f.SetCellValue(sheet, cell, value); err != nil {
+				return err
+			}
+		}
+	}
+
+	if err := f.SaveAs(path); err != nil {
+		return err
+	}
+	return nil
+}
+
+// WriteSeriesExcel writes a Series to an Excel file.
+func WriteSeriesExcel(path string, s *dataframe.Series, opts ExcelWriteOptions) error {
+	if s == nil {
+		return fmt.Errorf("series is nil")
+	}
+
+	includeHeader := true
+	if opts.IncludeHeader != nil {
+		includeHeader = *opts.IncludeHeader
+	}
+
+	sheet := opts.Sheet
+	if sheet == "" {
+		sheet = "Sheet1"
+	}
+
+	f := excelize.NewFile()
+	if sheet != "Sheet1" {
+		if err := f.SetSheetName("Sheet1", sheet); err != nil {
+			return err
+		}
+	}
+
+	rowOffset := 1
+	colOffset := 1
+	if includeHeader {
+		if opts.IncludeIndex {
+			indexName := opts.IndexName
+			if indexName == "" {
+				indexName = "index"
+			}
+			cell, _ := excelize.CoordinatesToCellName(colOffset, rowOffset)
+			if err := f.SetCellValue(sheet, cell, indexName); err != nil {
+				return err
+			}
+			colOffset++
+		}
+
+		seriesName := s.Name()
+		if seriesName == "" {
+			seriesName = "value"
+		}
+		cell, _ := excelize.CoordinatesToCellName(colOffset, rowOffset)
+		if err := f.SetCellValue(sheet, cell, seriesName); err != nil {
+			return err
+		}
+		rowOffset++
+	}
+
+	for i := 0; i < s.Len(); i++ {
+		colStart := 1
+		if opts.IncludeIndex {
+			label, err := s.Index().Get(i)
+			if err != nil {
+				return err
+			}
+			cell, _ := excelize.CoordinatesToCellName(colStart, rowOffset+i)
+			if err := f.SetCellValue(sheet, cell, label); err != nil {
+				return err
+			}
+			colStart++
+		}
+
+		value, err := s.Get(i)
+		if err != nil {
+			return err
+		}
+		cell, _ := excelize.CoordinatesToCellName(colStart, rowOffset+i)
+		if value == nil {
+			value = ""
+		}
+		if err := f.SetCellValue(sheet, cell, value); err != nil {
+			return err
+		}
+	}
+
+	if err := f.SaveAs(path); err != nil {
+		return err
+	}
+	return nil
 }
