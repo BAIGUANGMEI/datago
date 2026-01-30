@@ -24,11 +24,6 @@ function HomepageHeader() {
             to="/docs/intro">
             {isEnglish ? 'Read the Docs' : '开始阅读文档'}
           </Link>
-          <Link
-            className="button button--primary button--lg"
-            to="https://github.com/BAIGUANGMEI/datago">
-            {isEnglish ? 'GitHub' : '查看 GitHub'}
-          </Link>
         </div>
       </div>
     </header>

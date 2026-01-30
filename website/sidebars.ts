@@ -20,6 +20,7 @@ const sidebars: SidebarsConfig = {
     'series',
     'index',
     'io-excel',
+    'io-csv',
     'examples',
   ],
 };

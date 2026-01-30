@@ -7,7 +7,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 const config: Config = {
   title: 'DataGo',
   tagline: 'Go 数据分析与 Excel 读写库',
-  favicon: 'img/favicon.ico',
+  // favicon: 'img/logo-datago.png',
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
   future: {
@@ -58,10 +58,10 @@ const config: Config = {
     },
     navbar: {
       title: 'DataGo',
-      logo: {
-        alt: 'DataGo Logo',
-        src: 'img/logo-datago.png',
-      },
+      // logo: {
+      //   alt: 'DataGo Logo',
+      //   src: 'img/logo-datago.svg',
+      // },
       items: [
         {
           type: 'docSidebar',
@@ -69,10 +69,10 @@ const config: Config = {
           position: 'left',
           label: 'Docs',
         },
-        {
-          type: 'localeDropdown',
-          position: 'right',
-        },
+        // {
+        //   type: 'localeDropdown',
+        //   position: 'right',
+        // },
         {
           href: 'https://github.com/BAIGUANGMEI/datago',
           label: 'GitHub',
