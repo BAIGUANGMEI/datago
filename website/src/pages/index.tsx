@@ -39,7 +39,7 @@ export default function Home(): ReactNode {
       description={
         isEnglish
           ? 'DataGo: a Go data analysis library with Excel I/O'
-          : 'DataGo：Go 语言数据分析库'
+          : 'DataGo：Go 数据分析库'
       }>
       <HomepageHeader />
       <main>

@@ -6,7 +6,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
   title: 'DataGo',
-  tagline: 'Go 数据分析与 Excel 读写库',
+  tagline: 'Go 数据分析库',
   // favicon: 'img/logo-datago.png',
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
