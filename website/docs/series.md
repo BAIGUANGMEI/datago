@@ -269,5 +269,5 @@ func main() {
 ## 相关章节
 
 - [DataFrame 使用指南](./dataframe) - Series 是 DataFrame 的组成部分
-- [Index 使用指南](./index) - Series 的索引系统
+- [Index 使用指南](./data-index) - Series 的索引系统
 - [并行处理](./parallel) - 大数据量的并行操作

@@ -15,7 +15,7 @@ const sidebars: SidebarsConfig = {
     {
       type: 'category',
       label: '核心数据结构',
-      items: ['dataframe', 'series', 'index'],
+      items: ['dataframe', 'series', 'data-index'],
     },
     {
       type: 'category',

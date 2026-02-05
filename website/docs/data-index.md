@@ -1,6 +1,7 @@
 ---
 sidebar_position: 8
 title: Index 使用指南
+slug: /data-index
 ---
 
 # Index 使用指南
