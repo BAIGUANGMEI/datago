@@ -1,7 +1,5 @@
 import type {SidebarsConfig} from '@docusaurus/plugin-content-docs';
 
-// This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
-
 /**
  * Creating a sidebar enables you to:
  - create an ordered group of docs
@@ -9,18 +7,26 @@ import type {SidebarsConfig} from '@docusaurus/plugin-content-docs';
  - provide next/previous navigation
 
  The sidebars can be generated from the filesystem, or explicitly defined here.
-
- Create as many sidebars as you want.
  */
 const sidebars: SidebarsConfig = {
   tutorialSidebar: [
     'intro',
     'getting-started',
-    'dataframe',
-    'series',
-    'index',
-    'io-excel',
-    'io-csv',
+    {
+      type: 'category',
+      label: '核心数据结构',
+      items: ['dataframe', 'series', 'index'],
+    },
+    {
+      type: 'category',
+      label: '高级功能',
+      items: ['groupby', 'merge', 'parallel'],
+    },
+    {
+      type: 'category',
+      label: '数据 I/O',
+      items: ['io-excel', 'io-csv'],
+    },
     'examples',
   ],
 };

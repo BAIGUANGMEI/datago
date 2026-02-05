@@ -6,7 +6,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
   title: 'DataGo',
-  tagline: 'Go 数据分析与 Excel 读写库',
+  tagline: '高性能 Go 数据分析库 | DataFrame, GroupBy, Merge, 并行处理',
   // favicon: 'img/logo-datago.png',
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
@@ -67,7 +67,12 @@ const config: Config = {
           type: 'docSidebar',
           sidebarId: 'tutorialSidebar',
           position: 'left',
-          label: 'Docs',
+          label: '文档',
+        },
+        {
+          to: '/docs/examples',
+          position: 'left',
+          label: '示例',
         },
         // {
         //   type: 'localeDropdown',
@@ -84,29 +89,57 @@ const config: Config = {
       style: 'dark',
       links: [
         {
-          title: 'Docs',
+          title: '文档',
           items: [
             {
-              label: 'Docs',
+              label: '快速开始',
               to: '/docs/intro',
             },
-          ],
-        },
-        {
-          title: 'Community',
-          items: [
             {
-              label: 'Issues',
-              href: 'https://github.com/BAIGUANGMEI/datago/issues',
+              label: 'DataFrame',
+              to: '/docs/dataframe',
+            },
+            {
+              label: 'GroupBy',
+              to: '/docs/groupby',
+            },
+            {
+              label: 'Merge/Join',
+              to: '/docs/merge',
             },
           ],
         },
         {
-          title: 'More',
+          title: '功能',
+          items: [
+            {
+              label: '并行处理',
+              to: '/docs/parallel',
+            },
+            {
+              label: 'Excel 读写',
+              to: '/docs/io-excel',
+            },
+            {
+              label: 'CSV 读写',
+              to: '/docs/io-csv',
+            },
+            {
+              label: '示例',
+              to: '/docs/examples',
+            },
+          ],
+        },
+        {
+          title: '社区',
           items: [
             {
               label: 'GitHub',
               href: 'https://github.com/BAIGUANGMEI/datago',
+            },
+            {
+              label: 'Issues',
+              href: 'https://github.com/BAIGUANGMEI/datago/issues',
             },
           ],
         },
@@ -116,6 +149,7 @@ const config: Config = {
     prism: {
       theme: prismThemes.github,
       darkTheme: prismThemes.dracula,
+      additionalLanguages: ['go', 'bash'],
     },
   } satisfies Preset.ThemeConfig,
 };
