@@ -1,25 +1,25 @@
 # DataGo
 
-A high-performance data analysis library for Go, inspired by Python's pandas.
+高性能 Go 语言数据分析库，灵感来自 Python pandas。
 
-## Features
+## 特性
 
-- **DataFrame & Series**: Familiar pandas-like API for Go developers
-- **High Performance**: 2x faster than pandas for Excel reading
-- **GroupBy**: Powerful aggregation operations (Sum, Mean, Count, etc.)
-- **Merge/Join**: SQL-like table joins (Inner, Left, Right, Outer)
-- **Parallel Processing**: Leverage Go's concurrency for big data
-- **Excel & CSV**: Full support for reading and writing data files
+- **DataFrame & Series**：为 Go 开发者提供熟悉的 pandas 风格 API
+- **高性能**：Excel 读取速度是 pandas 的 2 倍
+- **GroupBy**：强大的分组聚合操作（Sum、Mean、Count 等）
+- **Merge/Join**：SQL 风格的表连接（Inner、Left、Right、Outer）
+- **并行处理**：利用 Go 并发优势加速大数据处理
+- **Excel & CSV**：完整支持数据文件读写
 
-## Installation
+## 安装
 
 ```bash
 go get github.com/datago
 ```
 
-Requires Go 1.24+
+需要 Go 1.24+
 
-## Quick Start
+## 快速开始
 
 ```go
 package main
@@ -31,81 +31,81 @@ import (
 )
 
 func main() {
-    // Create DataFrame
+    // 创建 DataFrame
     df, _ := dataframe.New(map[string][]interface{}{
         "name":   {"Alice", "Bob", "Charlie"},
         "age":    {25, 30, 35},
         "salary": {50000.0, 60000.0, 70000.0},
     })
 
-    // Filter and sort
+    // 筛选和排序
     filtered := df.Filter(func(r dataframe.Row) bool {
         return r.Get("age").(int) >= 30
     }).SortBy("salary", dataframe.Descending)
 
-    // GroupBy aggregation
+    // GroupBy 聚合
     gb, _ := df.GroupBy("age")
     stats := gb.Mean("salary")
 
-    // Read/Write files
+    // 读写文件
     excelDF, _ := io.ReadExcel("data.xlsx", io.ExcelOptions{HasHeader: true})
     _ = io.WriteCSV("output.csv", df, io.CSVWriteOptions{})
 }
 ```
 
-## Benchmark
+## 性能基准
 
-### ReadExcel Performance
+### ReadExcel 性能测试
 
-| Dataset | DataGo | pandas | polars |
-|---------|--------|--------|--------|
-| 15K rows × 11 cols | **0.21s** | 0.51s | 0.10s |
-| 271K rows × 16 cols | **5.76s** | 11.01s | 2.18s |
+| 数据集 | DataGo | pandas | polars |
+|--------|--------|--------|--------|
+| 15K 行 × 11 列 | **0.21s** | 0.51s | 0.10s |
+| 271K 行 × 16 列 | **5.76s** | 11.01s | 2.18s |
 
-DataGo is approximately **2x faster** than pandas for Excel reading.
+DataGo 读取 Excel 速度约为 pandas 的 **2 倍**。
 
-## Documentation
+## 文档
 
-Visit [documentation site](./website) for detailed guides:
+访问 [文档站点](./website) 查看详细指南：
 
-- [Introduction](./website/docs/intro.md)
-- [Getting Started](./website/docs/getting-started.md)
-- [DataFrame Guide](./website/docs/dataframe.md)
-- [Series Guide](./website/docs/series.md)
-- [GroupBy](./website/docs/groupby.md)
-- [Merge/Join](./website/docs/merge.md)
-- [Parallel Processing](./website/docs/parallel.md)
-- [Excel I/O](./website/docs/io-excel.md)
-- [CSV I/O](./website/docs/io-csv.md)
-- [Examples](./website/docs/examples.md)
+- [简介](./website/docs/intro.md)
+- [快速入门](./website/docs/getting-started.md)
+- [DataFrame 指南](./website/docs/dataframe.md)
+- [Series 指南](./website/docs/series.md)
+- [GroupBy 分组聚合](./website/docs/groupby.md)
+- [Merge/Join 表连接](./website/docs/merge.md)
+- [并行处理](./website/docs/parallel.md)
+- [Excel 读写](./website/docs/io-excel.md)
+- [CSV 读写](./website/docs/io-csv.md)
+- [示例](./website/docs/examples.md)
 
-## API Overview
+## API 概览
 
-### DataFrame Operations
+### DataFrame 操作
 
 ```go
-// Creation
+// 创建
 df, _ := dataframe.New(data)
 df, _ := dataframe.FromRecords(records, columns)
 
-// Selection
+// 选择
 df.Head(n) / df.Tail(n)
 df.Select("col1", "col2")
 df.Filter(func(row Row) bool { ... })
 df.ILoc(rowStart, rowEnd, colStart, colEnd)
 
-// Manipulation
+// 操作
 df.AddColumn("name", series)
 df.Drop("col1", "col2")
 df.Rename(map[string]string{"old": "new"})
 df.SortBy("col", Ascending)
 
-// Statistics
+// 统计
 df.Describe()
 df.ParallelSum() / df.ParallelMean()
 ```
 
-### GroupBy Operations
+### GroupBy 操作
 
 ```go
 gb, _ := df.GroupBy("category")
@@ -116,16 +116,16 @@ gb.Apply(func(*DataFrame) *DataFrame { ... })
 gb.Filter(func(*DataFrame) bool { ... })
 ```
 
-### Merge/Join Operations
+### Merge/Join 操作
 
 ```go
-// Inner/Left/Right/Outer Join
+// Inner/Left/Right/Outer 连接
 result, _ := dataframe.Merge(left, right, MergeOptions{
     How: InnerJoin,
     On:  []string{"key"},
 })
 
-// Different column names
+// 不同列名连接
 result, _ := left.MergeOn(right, 
     []string{"left_key"}, 
     []string{"right_key"}, 
@@ -133,21 +133,21 @@ result, _ := left.MergeOn(right,
 )
 ```
 
-### Parallel Processing
+### 并行处理
 
 ```go
-// Parallel Apply
+// 并行 Apply
 result := series.ParallelApply(func(v interface{}) interface{} { ... })
 
-// Parallel Filter
+// 并行筛选
 result := df.ParallelFilter(func(row Row) bool { ... })
 
-// Parallel Aggregation
+// 并行聚合
 sums := df.ParallelSum()
 gb.ParallelAgg(aggFuncs)
 ```
 
-### I/O Operations
+### I/O 操作
 
 ```go
 // Excel
@@ -159,6 +159,6 @@ df, _ := io.ReadCSV("file.csv", CSVOptions{HasHeader: true})
 io.WriteCSV("output.csv", df, CSVWriteOptions{})
 ```
 
-## License
+## 许可证
 
 MIT License
