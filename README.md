@@ -66,7 +66,7 @@ DataGo 读取 Excel 速度约为 pandas 的 **2 倍**。
 
 ## 文档
 
-访问 [文档站点](./website) 查看详细指南：
+在线文档：https://baiguangmei.github.io/datago/
 
 - [简介](./website/docs/intro.md)
 - [快速入门](./website/docs/getting-started.md)
