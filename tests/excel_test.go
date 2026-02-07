@@ -5,8 +5,8 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/datago/dataframe"
-	"github.com/datago/io"
+	"github.com/BAIGUANGMEI/datago/dataframe"
+	"github.com/BAIGUANGMEI/datago/io"
 )
 
 func TestReadExcelBasic(t *testing.T) {

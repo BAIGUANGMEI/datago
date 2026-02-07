@@ -3,7 +3,7 @@ package tests
 import (
 	"testing"
 
-	"github.com/datago/dataframe"
+	"github.com/BAIGUANGMEI/datago/dataframe"
 )
 
 func TestParallelApply(t *testing.T) {

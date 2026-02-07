@@ -14,10 +14,10 @@
 ## 安装
 
 ```bash
-go get github.com/datago
+go get github.com/BAIGUANGMEI/datago
 ```
 
-需要 Go 1.24+
+需要 Go 1.22+
 
 ## 快速开始
 
@@ -26,8 +26,8 @@ package main
 
 import (
     "fmt"
-    "github.com/datago/dataframe"
-    "github.com/datago/io"
+    "github.com/BAIGUANGMEI/datago/dataframe"
+    "github.com/BAIGUANGMEI/datago/io"
 )
 
 func main() {
